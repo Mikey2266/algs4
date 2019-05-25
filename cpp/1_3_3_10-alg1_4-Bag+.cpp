@@ -72,6 +72,7 @@ int main() {
     //         cout << "Stack is empty." << endl;
     //     }
     // }
+    
     // 文件输入测试
     string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
     string filename = "tobe.txt";
@@ -87,7 +88,7 @@ int main() {
         cout << "adding is over." << endl;
     }  
     else {  
-        cout <<"no such file" << endl;  
+        cout << "no such file!" << endl;
     } 
     return 0;
 }
