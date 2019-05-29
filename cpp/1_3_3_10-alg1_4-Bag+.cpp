@@ -78,7 +78,7 @@ int main() {
     string filename = "tobe.txt";
     ifstream in(path + filename);  
     string item;
-    if (in) {  
+    if (in.is_open()) {
         while (getline(in, item)) {   
             if (item != "-") {
                 // stack.push(atoi(item.c_str()));

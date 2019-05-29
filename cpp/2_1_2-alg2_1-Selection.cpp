@@ -62,7 +62,7 @@ int main() {
     string filename = "tiny.txt";
     ifstream in(path + filename);
     string item;
-    if (in) {
+    if (in.is_open()) {
         while (getline(in, item)) {
             vector<string> vec;
             int head = 0;

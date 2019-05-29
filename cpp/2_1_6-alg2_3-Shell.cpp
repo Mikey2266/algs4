@@ -4,28 +4,28 @@
 
 using namespace std;
 
-class Insertion {
+class Shell {
 private:
     void exch(vector<string>& a, int i, int j);
 public:
-    Insertion();
-    ~Insertion();
+    Shell();
+    ~Shell();
 
     void show(vector<string>& a);
     void sort(vector<string>& a);
     bool isSorted(vector<string>& a);
 };
 
-Insertion::Insertion() {}
-Insertion::~Insertion() {}
+Shell::Shell() {}
+Shell::~Shell() {}
 
-void Insertion::exch(vector<string>& a, int i, int j) {
+void Shell::exch(vector<string>& a, int i, int j) {
     string temp = a[i];
     a[i] = a[j];
     a[j] = temp;
 }
 
-void Insertion::show(vector<string>& a) {
+void Shell::show(vector<string>& a) {
     if (a.size() > 0) {
         cout << a[0];
         for (int i = 1; i < a.size(); i++) {
@@ -35,7 +35,7 @@ void Insertion::show(vector<string>& a) {
     }
 }
 
-bool Insertion::isSorted(vector<string>& a) {
+bool Shell::isSorted(vector<string>& a) {
     for (int i = 1; i < a.size(); i++) {
         if (a[i - 1] > a[i]) {
             return false;
@@ -44,18 +44,25 @@ bool Insertion::isSorted(vector<string>& a) {
     return true;
 }
 
-void Insertion::sort(vector<string>& a) {
+void Shell::sort(vector<string>& a) {
     int N = a.size();
-    for (int i = 1; i < N; i++) {
-        for (int j = i; j > 0 && a[j] < a[j - 1]; j--) {
-            exch(a, j, j - 1);
+    int h = 1;
+    while (h < N /3) {
+        h = h * 3 + 1;
+    }
+    while (h >= 1) {
+        for (int i = h; i < N; i++) {
+            for (int j = i; j >= h && a[j] < a[j - h];j -= h) {
+                exch(a, j, j - h);
+            }
         }
+        h = h / 3;
     }
 }
 
 int main() {
     string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
-    string filename = "x.txt";
+    string filename = "tiny.txt";
     ifstream in(path + filename);
     string item;
     if (in.is_open()) {
@@ -71,7 +78,7 @@ int main() {
                     item.clear();
                 }
             }
-            Insertion sort = Insertion();
+            Shell sort = Shell();
             sort.show(vec);
             sort.sort(vec);
             if (!sort.isSorted(vec)) {

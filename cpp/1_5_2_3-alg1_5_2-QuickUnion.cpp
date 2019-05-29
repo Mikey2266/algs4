@@ -64,7 +64,7 @@ int main() {
     string filename = "tinyUF.txt";
     ifstream in(path + filename);
     string item;
-    if (in) {
+    if (in.is_open()) {
         getline(in, item);
         UF uf = UF(atoi(item.c_str()));
         while (getline(in, item)) {

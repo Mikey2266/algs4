@@ -1,31 +1,31 @@
 #include<iostream>
-#include<vector>
 #include<fstream>
+#include<vector>
 
 using namespace std;
 
-class Insertion {
+class Merge {
 private:
-    void exch(vector<string>& a, int i, int j);
+    vector<string> aux;
+    void merge(vector<string>& a, int lo, int mid, int hi);
 public:
-    Insertion();
-    ~Insertion();
+    Merge(int N);
+    ~Merge();
 
     void show(vector<string>& a);
-    void sort(vector<string>& a);
+    void sort(vector<string>& a, int lo, int hi);
     bool isSorted(vector<string>& a);
 };
 
-Insertion::Insertion() {}
-Insertion::~Insertion() {}
-
-void Insertion::exch(vector<string>& a, int i, int j) {
-    string temp = a[i];
-    a[i] = a[j];
-    a[j] = temp;
+Merge::Merge(int N) {
+    for (int k = 0; k < N; k++) {
+        aux.push_back("-");
+    }
 }
 
-void Insertion::show(vector<string>& a) {
+Merge::~Merge() {}
+
+void Merge::show(vector<string>& a) {
     if (a.size() > 0) {
         cout << a[0];
         for (int i = 1; i < a.size(); i++) {
@@ -35,7 +35,39 @@ void Insertion::show(vector<string>& a) {
     }
 }
 
-bool Insertion::isSorted(vector<string>& a) {
+void Merge::sort(vector<string>& a, int lo, int hi) {
+    if (lo >= hi) {
+        return;
+    }
+    int mid = lo + (hi - lo) / 2;
+    sort(a, lo, mid);
+    sort(a, mid + 1, hi);
+    merge(a, lo, mid, hi);
+}
+
+void Merge::merge(vector<string>& a, int lo, int mid, int hi) {
+    int i = lo;
+    int j = mid + 1;
+    for (int k = 0; k < a.size(); k++) {
+        aux[k] = a[k];
+    }
+    for (int k = lo; k <= hi; k++) {
+        if (i > mid) {
+            a[k] = aux[j++];
+        }
+        else if (j > hi) {
+            a[k] = aux[i++];
+        }
+        else if (aux[i] < aux[j]) {
+            a[k] = aux[i++];
+        }
+        else {
+            a[k] = aux[j++];
+        }
+    }
+}
+
+bool Merge::isSorted(vector<string>& a) {
     for (int i = 1; i < a.size(); i++) {
         if (a[i - 1] > a[i]) {
             return false;
@@ -44,18 +76,10 @@ bool Insertion::isSorted(vector<string>& a) {
     return true;
 }
 
-void Insertion::sort(vector<string>& a) {
-    int N = a.size();
-    for (int i = 1; i < N; i++) {
-        for (int j = i; j > 0 && a[j] < a[j - 1]; j--) {
-            exch(a, j, j - 1);
-        }
-    }
-}
 
 int main() {
     string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
-    string filename = "x.txt";
+    string filename = "new_shell.txt";
     ifstream in(path + filename);
     string item;
     if (in.is_open()) {
@@ -71,9 +95,9 @@ int main() {
                     item.clear();
                 }
             }
-            Insertion sort = Insertion();
+            Merge sort = Merge(vec.size());
             sort.show(vec);
-            sort.sort(vec);
+            sort.sort(vec, 0, vec.size() - 1);
             if (!sort.isSorted(vec)) {
                 cout << "sort error" << endl;
             }
