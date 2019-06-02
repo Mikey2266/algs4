@@ -1,31 +1,32 @@
 #include<iostream>
-#include<vector>
 #include<fstream>
+#include<vector>
+#include <algorithm>
 
 using namespace std;
 
-class Insertion {
+class MergeBU {
 private:
-    void exch(vector<string>& a, int i, int j);
+    vector<string> aux;
+    void merge(vector<string>& a, int lo, int mid, int hi);
 public:
-    Insertion();
-    ~Insertion();
+    MergeBU(int N);
+    ~MergeBU();
 
     void show(vector<string>& a);
     void sort(vector<string>& a);
     bool isSorted(vector<string>& a);
 };
 
-Insertion::Insertion() {}
-Insertion::~Insertion() {}
-
-void Insertion::exch(vector<string>& a, int i, int j) {
-    string temp = a[i];
-    a[i] = a[j];
-    a[j] = temp;
+MergeBU::MergeBU(int N) {
+    for (int k = 0; k < N; k++) {
+        aux.push_back("-");
+    }
 }
 
-void Insertion::show(vector<string>& a) {
+MergeBU::~MergeBU() {}
+
+void MergeBU::show(vector<string>& a) {
     if (a.size() > 0) {
         cout << a[0];
         for (int i = 1; i < a.size(); i++) {
@@ -35,7 +36,38 @@ void Insertion::show(vector<string>& a) {
     }
 }
 
-bool Insertion::isSorted(vector<string>& a) {
+void MergeBU::sort(vector<string>& a) {
+    int N = a.size();
+    for (int sz = 1; sz < N; sz = sz + sz) {
+        for (int lo = 0; lo < N - sz; lo += sz + sz) {
+            merge(a, lo, lo + sz - 1, min(lo + sz + sz - 1, N-1));
+        }
+    }
+}
+
+void MergeBU::merge(vector<string>& a, int lo, int mid, int hi) {
+    int i = lo;
+    int j = mid + 1;
+    for (int k = 0; k < a.size(); k++) {
+        aux[k] = a[k];
+    }
+    for (int k = lo; k <= hi; k++) {
+        if (i > mid) {
+            a[k] = aux[j++];
+        }
+        else if (j > hi) {
+            a[k] = aux[i++];
+        }
+        else if (aux[i] < aux[j]) {
+            a[k] = aux[i++];
+        }
+        else {
+            a[k] = aux[j++];
+        }
+    }
+}
+
+bool MergeBU::isSorted(vector<string>& a) {
     for (int i = 1; i < a.size(); i++) {
         if (a[i - 1] > a[i]) {
             return false;
@@ -44,18 +76,10 @@ bool Insertion::isSorted(vector<string>& a) {
     return true;
 }
 
-void Insertion::sort(vector<string>& a) {
-    int N = a.size();
-    for (int i = 1; i < N; i++) {
-        for (int j = i; j > 0 && a[j] < a[j - 1]; j--) {
-            exch(a, j, j - 1);
-        }
-    }
-}
 
 int main() {
     string path = "../../../algs4-data/";
-    string filename = "x.txt";
+    string filename = "newMergeExample.txt";
     ifstream in(path + filename);
     string item;
     if (in.is_open()) {
@@ -71,7 +95,7 @@ int main() {
                     item.clear();
                 }
             }
-            Insertion sort = Insertion();
+            MergeBU sort = MergeBU(vec.size());
             sort.show(vec);
             sort.sort(vec);
             if (!sort.isSorted(vec)) {

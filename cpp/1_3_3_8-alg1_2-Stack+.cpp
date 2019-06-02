@@ -83,7 +83,7 @@ int main() {
     // }
     
     // 文件输入测试
-    string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
+    string path = "../../../algs4-data/";
     string filename = "tobe.txt";
     ifstream in(path + filename);  
     string item;

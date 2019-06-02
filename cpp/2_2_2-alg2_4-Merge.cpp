@@ -78,8 +78,8 @@ bool Merge::isSorted(vector<string>& a) {
 
 
 int main() {
-    string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
-    string filename = "new_shell.txt";
+    string path = "../../../algs4-data/";
+    string filename = "newMergeExample.txt";
     ifstream in(path + filename);
     string item;
     if (in.is_open()) {

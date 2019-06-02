@@ -1,31 +1,32 @@
 #include<iostream>
-#include<vector>
 #include<fstream>
+#include<vector>
+#include<random>
+#include<algorithm>
+#include<chrono>
 
 using namespace std;
 
-class Insertion {
+class Quick3way {
 private:
     void exch(vector<string>& a, int i, int j);
 public:
-    Insertion();
-    ~Insertion();
+    Quick3way(vector<string>& a);
+    ~Quick3way();
 
     void show(vector<string>& a);
-    void sort(vector<string>& a);
     bool isSorted(vector<string>& a);
+    void sort(vector<string>& a, int lo, int hi);
 };
 
-Insertion::Insertion() {}
-Insertion::~Insertion() {}
-
-void Insertion::exch(vector<string>& a, int i, int j) {
-    string temp = a[i];
-    a[i] = a[j];
-    a[j] = temp;
+Quick3way::Quick3way(vector<string>& a) {
+    // 乱序
+    unsigned seed = chrono::system_clock::now ().time_since_epoch ().count ();
+    shuffle(a.begin (), a.end (), default_random_engine (seed));    
 }
+Quick3way::~Quick3way() {}
 
-void Insertion::show(vector<string>& a) {
+void Quick3way::show(vector<string>& a) {
     if (a.size() > 0) {
         cout << a[0];
         for (int i = 1; i < a.size(); i++) {
@@ -35,7 +36,7 @@ void Insertion::show(vector<string>& a) {
     }
 }
 
-bool Insertion::isSorted(vector<string>& a) {
+bool Quick3way::isSorted(vector<string>& a) {
     for (int i = 1; i < a.size(); i++) {
         if (a[i - 1] > a[i]) {
             return false;
@@ -44,18 +45,34 @@ bool Insertion::isSorted(vector<string>& a) {
     return true;
 }
 
-void Insertion::sort(vector<string>& a) {
-    int N = a.size();
-    for (int i = 1; i < N; i++) {
-        for (int j = i; j > 0 && a[j] < a[j - 1]; j--) {
-            exch(a, j, j - 1);
-        }
+void Quick3way::exch(vector<string>& a, int i, int j) {
+    string temp = a[i];
+    a[i] = a[j];
+    a[j] = temp;
+}
+
+void Quick3way::sort(vector<string>& a, int lo, int hi) {
+    if (hi <= lo) {
+        return;
     }
+    int lt = lo, i = lo + 1, gt = hi;
+    string v = a[lo];
+    while (i <= gt) {
+        if (a[i] < v) {
+            exch(a, lt++, i++);
+        }
+        else if (a[i] > v) {
+            exch(a, gt--, i);
+        }
+        else i++;
+    }
+    sort(a, lo, lt - 1);
+    sort(a, gt + 1, hi);
 }
 
 int main() {
     string path = "../../../algs4-data/";
-    string filename = "x.txt";
+    string filename = "newQuick3WayExample.txt";
     ifstream in(path + filename);
     string item;
     if (in.is_open()) {
@@ -71,9 +88,9 @@ int main() {
                     item.clear();
                 }
             }
-            Insertion sort = Insertion();
+            Quick3way sort = Quick3way(vec);
             sort.show(vec);
-            sort.sort(vec);
+            sort.sort(vec, 0, vec.size() - 1);
             if (!sort.isSorted(vec)) {
                 cout << "sort error" << endl;
             }

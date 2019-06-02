@@ -61,7 +61,7 @@ void Shell::sort(vector<string>& a) {
 }
 
 int main() {
-    string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
+    string path = "../../../algs4-data/";
     string filename = "tiny.txt";
     ifstream in(path + filename);
     string item;

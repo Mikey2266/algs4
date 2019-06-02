@@ -60,7 +60,7 @@ void UF::Union(int p, int q) {
 }
 
 int main() {
-    string path = "C:\\Users\\60187\\Desktop\\ItA\\algs4\\algs4-data\\";
+    string path = "../../../algs4-data/";
     string filename = "tinyUF.txt";
     ifstream in(path + filename);
     string item;
