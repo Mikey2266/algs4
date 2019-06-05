@@ -72,8 +72,7 @@ void Heap::sort(vector<string>& a) {
 }
 
 int main() {
-    // string path = "../../../algs4-data/";
-    string path = "C:/Users/60187/Desktop/ItA/algs4/algs4-data/";
+    string path = "../../../algs4-data/";
     string filename = "newQuickExample.txt";
     ifstream in(path + filename);
     string item;
