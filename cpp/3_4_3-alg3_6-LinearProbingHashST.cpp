@@ -30,8 +30,7 @@ LinearProbingHashST::LinearProbingHashST(int len) {
     vec = temp;
 }
 
-LinearProbingHashST::~LinearProbingHashST() {
-}
+LinearProbingHashST::~LinearProbingHashST() { }
 
 void LinearProbingHashST::resize(int cap) {
     LinearProbingHashST t = LinearProbingHashST(cap);
@@ -78,7 +77,6 @@ void LinearProbingHashST::del(string str) {
     vec[i] = NULL;
     i = (i + 1) %  M;
     while (vec[i]) {
-        // auto a = make_pair(vec[i]->first, vec[i]->second);
         pair<string, int>* temp = new pair<string, int>(vec[i]->first, vec[i]->second);
         vec[i] = NULL;
         N--;
